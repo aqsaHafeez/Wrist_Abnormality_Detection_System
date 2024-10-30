@@ -1,0 +1,1 @@
+# Wrist_Abnormality_Detection_System
