@@ -1,0 +1,96 @@
+/* Apply to the entire document */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Center container for the title and table */
+.container {
+    width: 80%;
+    text-align: center;
+}
+
+/* Header */
+h1 {
+    color: #4a90e2;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Table headers */
+thead th {
+    background-color: #4a90e2;
+    color: #ffffff;
+    padding: 12px;
+    font-size: 1.1em;
+    text-align: left;
+}
+
+/* Table rows */
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease;
+}
+
+/* Table cells */
+tbody td {
+    padding: 12px;
+    text-align: left;
+    color: #555555;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+    background-color: #f1f7ff;
+}
+
+/* Style for alternating rows */
+tbody tr:nth-child(even) {
+    background-color: #f9fbfd;
+}
+
+/* Responsive table on small screens */
+@media (max-width: 600px) {
+    table, tbody, tr, td, th {
+        display: block;
+        width: 100%;
+    }
+    thead {
+        display: none;
+    }
+    tbody tr {
+        margin-bottom: 15px;
+        border-bottom: none;
+    }
+    tbody td {
+        padding: 8px;
+        position: relative;
+        text-align: right;
+    }
+    tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        padding-left: 15px;
+        font-weight: bold;
+        color: #4a90e2;
+    }
+}

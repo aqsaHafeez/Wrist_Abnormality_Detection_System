@@ -14,6 +14,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
+def get_db_connection():
+    conn = sqlite3.connect('users.db')  
+    conn.row_factory = sqlite3.Row
+    return conn
+
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -196,6 +201,70 @@ def generate_pdf_report(path):
 
     # Save the PDF
     c.save()
+
+    #handeling contact us section 
+
+# creating feedback Table in database
+@app.route('/create_feedback_table')
+def create_feedback_table():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    # SQL command to create the 'feedback' table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            message TEXT NOT NULL,
+            submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    ''')
+
+    conn.commit()
+    conn.close()
+    return "Feedback table created successfully."
+
+
+@app.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+
+    if not name or not email or not message:
+        flash('Please fill out all fields')
+        return redirect(url_for('index'))
+
+    # Insert feedback into the database
+    conn = get_db_connection()
+    conn.execute(
+        "INSERT INTO feedback (name, email, message) VALUES (?, ?, ?)",
+        (name, email, message)
+    )
+    conn.commit()
+    conn.close()
+
+    flash('Your message has been sent successfully. Thank you!')
+    return redirect(url_for('index'))
+
+@app.route('/view_feedback')
+def view_feedback():
+    secret_key = request.args.get('key')
+    
+    # Check for a simple secret key (you can replace this with a more secure approach)
+    if secret_key != 'admin321':
+        return "Unauthorized access", 403
+
+    # Query to fetch all feedback
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name, email, message FROM feedback")
+    feedback_list = cursor.fetchall()
+    conn.close()
+
+    return render_template('view_feedback.html', feedback=feedback_list)
+
 
 
 if __name__ == '__main__':
