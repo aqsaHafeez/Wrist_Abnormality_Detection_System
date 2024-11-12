@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header id="page-title">
+        <h1>Sign Up</h1>
+    </header>
+  
+    <main>
+        <section id="sign-up">
+            <div class="container">
+                <div class="form-container" id="form-container">
+                    <!-- Flash Messages Container -->
+                    <div id="flash-messages"></div>
+                    
+                    <!-- Sign Up Form -->
+                    <form action="{{ url_for('signup') }}" method="post">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+
+                        <label for="ConfirmPassword">Confirm Password</label>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" required>
+
+                        <label for="question1">What was your first pet's name?</label>
+                        <input type="text" id="question1" name="question1" required>
+
+                        <label for="question2">What is the name of your favorite teacher?</label>
+                        <input type="text" id="question2" name="question2" required>
+
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Wait for the page to load
+        window.onload = function() {
+            // Retrieve flash messages from the server as JSON
+            const flashMessages = JSON.parse('{{ get_flashed_messages(with_categories=true) | tojson }}');
+
+            // Check if there are any flash messages
+            if (flashMessages.length > 0) {
+                // Select the flash messages container
+                const flashContainer = document.getElementById('flash-messages');
+
+                // Display each flash message in a styled box
+                flashMessages.forEach(([category, message]) => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('flash-message', category);
+                    messageElement.textContent = message;
+
+                    // Style for the flash message
+                    messageElement.style.padding = '10px';
+                    messageElement.style.marginBottom = '10px';
+                    messageElement.style.border = '1px solid';
+                    messageElement.style.borderRadius = '5px';
+
+                    // Apply color styling based on category
+                    if (category === 'success') {
+                        messageElement.style.backgroundColor = '#d4edda';
+                        messageElement.style.borderColor = '#c3e6cb';
+                        messageElement.style.color = '#155724';
+                    } else if (category === 'error') {
+                        messageElement.style.backgroundColor = '#f8d7da';
+                        messageElement.style.borderColor = '#f5c6cb';
+                        messageElement.style.color = '#721c24';
+                    }
+
+                    // Add the message element to the flash container
+                    flashContainer.appendChild(messageElement);
+                });
+
+                // Scroll the page to the top to show the messages
+                window.scrollTo(0, 0);
+            }
+        };
+    </script>
+</body>
+</html>

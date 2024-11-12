@@ -1,0 +1,719 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #00bcd4; /* Bright teal for accents */
+  --secondary-color: #1a1a2e; /* Dark navy for contrast */
+  --accent-color: #e0f7fa; /* Light cyan */
+  --highlight-color: #ff4081; /* Pink for attention-grabbing elements */
+  --text-color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* Navbar Section */
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 70px;
+  z-index: 1000;
+  background: linear-gradient(60deg, var(--primary-color), #03a9f4);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+#logo img {
+  width: 80px;
+  transition: transform 0.3s ease;
+}
+
+#logo img:hover {
+  transform: scale(1.1);
+}
+
+#navbar ul {
+  display: flex;
+  font-weight: bold;
+}
+
+#navbar ul li {
+  list-style: none;
+  font-size: small;
+}
+
+#navbar ul li a {
+  color: var(--text-color);
+  display: block;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.4s, transform 0.3s;
+}
+
+#navbar ul li a:hover {
+  color: var(--highlight-color);
+  background-color: var(--text-color);
+  transform: scale(1.1);
+}
+
+/* Home Section */
+/* Home Section */
+#home {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #00bcd4, #1a1a2e), url('/static/images/bg.jpg') center/cover no-repeat !important;
+  color: var(--text-color);
+  text-align: center;
+  background-blend-mode: multiply;
+}
+
+/* Heading Style */
+#home h1 {
+  font-size: 4rem; /* Clean, readable size */
+  font-weight: 700; /* Slightly less bold for a refined look */
+  color: rgba(255, 255, 255, 0.95); /* Slightly softened white */
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  letter-spacing: 1px; /* Slight spacing for readability */
+  animation: fadeIn 1.5s ease-out;
+}
+
+/* Paragraph Style */
+#home p {
+  font-size: 1.5rem; /* Decent size for readability */
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85); /* Softened color for elegance */
+  margin-bottom: 30px;
+  line-height: 1.6; /* Line height for readability */
+  max-width: 700px;
+  animation: fadeIn 2s ease-out;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Light shadow for subtle depth */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* Upload Section */
+#upload {
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  padding: 80px 20px;
+  text-align: center;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
+  border-radius: 0px; /* More rounded corners for a card-like look */
+  transition: box-shadow 0.3s ease-in-out; /* Smooth transition */
+  max-width: 100%;
+
+}
+
+#upload:hover {
+  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2); /* Elevation on hover */
+}
+
+#upload h1 {
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  font-size: 3rem; /* Slightly larger heading */
+  font-weight: 800;
+  text-shadow: 0px 6px 12px rgba(0, 188, 212, 0.4);
+}
+
+#upload .form-control-file {
+  width: 60%;
+  margin: 50px auto;
+  margin-right: 20px;
+  padding: 15px;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0px 5px 12px rgba(0, 188, 212, 0.2);
+}
+
+#upload .form-control-file:hover,
+#upload .form-control-file:focus {
+  border-color: var(--highlight-color);
+  box-shadow: 0px 8px 18px rgba(0, 188, 212, 0.4);
+  outline: none;
+}
+
+#upload button {
+  background: linear-gradient(90deg, var(--highlight-color), #ff80ab);
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 1.3rem; /* Larger button text */
+  border-radius: 8px; /* Reduced border-radius for rectangular shape */
+  padding: 18px 36px; /* Larger button padding */
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  box-shadow: 0px 8px 20px rgba(255, 64, 129, 0.5);
+}
+
+#upload button:hover {
+  transform: translateY(-6px);
+  background: linear-gradient(90deg, #ff80ab, var(--highlight-color));
+  box-shadow: 0px 10px 25px rgba(255, 64, 129, 0.6);
+}
+
+#upload button:active {
+  transform: scale(0.96); /* Adds a more pronounced "press" effect */
+}
+
+
+#upload .form-control-file::file-selector-button {
+  font-weight: bold;
+  color: var(--primary-color);
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+
+
+/* Report Section */
+/* Report Section */
+#report {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 80px 20px;
+  text-align: center;
+  border-radius: 0px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+}
+
+#report h1 {
+  color: var(--primary-color);
+  margin-bottom: 40px;
+  font-size: 2.6rem; /* Larger heading */
+  font-weight: 800;
+  text-shadow: 0px 4px 10px rgba(0, 188, 212, 0.4);
+}
+
+#report h3 {
+  color: var(--accent-color);
+  font-size: 1.8rem; /* Slightly larger subheading */
+  margin-bottom: 20px;
+}
+
+#report #detection-result {
+  max-width: 90%; /* Increased width for larger view */
+  margin: 30px auto;
+  border: 6px solid var(--highlight-color);
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(255, 64, 129, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#report #detection-result:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0px 10px 25px rgba(255, 64, 129, 0.4);
+}
+
+#report #report-content {
+  padding: 30px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #b0bec5; /* Softer color for readability */
+  background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  margin: 0 auto;
+  line-height: 1.6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#report #report-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Center the card on the page */
+#report-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #2d2b2b;
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(99, 99, 99, 0.2);
+  max-width: 600px; /* Increased card width */
+  margin: 0 auto; /* Center the card horizontally */
+  text-align: center;
+}
+
+/* Style the image to be larger and centered within the card */
+#report-section img {
+  width: 100%; /* Make the image fill the card width */
+  max-height: 600px; /* Allow image to be tall without exceeding the card height */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(36, 35, 35, 0.1);
+  object-fit: contain; /* Ensure image scales within the card without cropping */
+}
+
+/* Download Button Styles */
+.download-button a {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  background-color: #03a9f4;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.download-button a:hover {
+  background-color: #0288d1;
+}
+
+/* New Styles for the Report Download Button */
+.download-button {
+  margin-top: 15px;
+}
+
+/* Style for Report Section in Text */
+#report-section .report-section {
+  background: rgba(240, 239, 239, 0.5); /* Darker background for better text contrast */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+  margin: 15px auto;
+  color: #ffffff; /* White color for better visibility */
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+
+#report-section .report-section h2 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Report download button style */
+#report-section .download-report-button a {
+  display: inline-block;
+  padding: 12px 25px;
+  color: white;
+  background-color: #ff4081;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+#report-section .download-report-button a:hover {
+  background-color: #f50057;
+}
+
+
+
+/* Contact Section */
+#contact-us {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 60px 20px;
+}
+
+#contact-box {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#contact-box label {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+
+#contact-box input,
+#contact-box textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  font-size: 1rem;
+}
+
+#contact-box .submit {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, var(--highlight-color), #ff80ab);
+  color: var(--text-color);
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(255, 64, 129, 0.4);
+  transition: transform 0.3s;
+}
+
+#contact-box .submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 15px rgba(255, 64, 129, 0.5);
+}
+
+/* Footer Section */
+.footer {
+  background: var(--secondary-color);
+  color: var(--accent-color);
+  padding: 25px;
+  text-align: center;
+}
+
+.footer-social {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 15px;
+  font-size: 2.5rem;
+  border-radius: 50px;
+}
+
+.generic-anchor {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.generic-anchor:hover {
+  color: var(--highlight-color);
+}
+
+/* Team Section */
+#team {
+  background: linear-gradient(135deg, var(--accent-color), #ffffff);
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 100%;
+}
+
+#team h1 {
+  color: var(--primary-color);
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+#team .team-member {
+  position: relative;
+  width: 220px;
+  margin: 20px auto;
+  padding: 15px;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+#team .team-member:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Image Holder */
+#team .team-member img {
+  width: 180px; /* Fixed width */
+  height: 220px; /* Fixed height to ensure consistency */
+  border-radius: 10px; /* For a card-like look */
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 15px;
+}
+
+#team .team-member h3 {
+  color: var(--highlight-color);
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#team .team-member p {
+  color: #b0bec5;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* General Container Styling */
+.container {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.container h2 {
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+.container p {
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+/* Technology Stack Section */
+#technology-stack {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+#technology-stack h2 {
+  color: var(--primary-color);
+  font-size: 2.5rem; /* Increase heading size to match Features section */
+  margin-bottom: 20px;
+}
+
+#technology-stack p {
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+}
+
+#technology-stack .tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Make cards larger and responsive */
+  gap: 30px; /* Increase gap between cards */
+  justify-items: center;
+  text-align: center;
+}
+
+#technology-stack .tech-item {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 30px; /* Increase padding for a larger card */
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%; /* Ensure cards take full available width */
+  max-width: 100%; /* Control maximum width */
+}
+
+#technology-stack .tech-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#technology-stack .tech-item img {
+  width: 70px; /* Increase icon size */
+  height: 70px;
+  margin-bottom: 15px;
+}
+
+#technology-stack .tech-item h3 {
+  font-size: 1.5rem; /* Increase title size */
+  color: var(--highlight-color);
+  margin-top: 10px;
+}
+
+
+/* Features Section */
+#features {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+#features h2 {
+  color: var(--primary-color);
+  font-size: 2.5rem; /* Increase heading size */
+  margin-bottom: 20px;
+}
+
+#features p {
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+}
+
+#features .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Make cards larger and responsive */
+  gap: 30px; /* Increase gap between cards */
+  justify-items: center;
+  text-align: center;
+}
+
+#features .feature-item {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 30px; /* Increase padding for a larger card */
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%; /* Ensure cards take full available width */
+  max-width: 100%; /* Control maximum width */
+}
+
+#features .feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#features .feature-item img {
+  width: 70px; /* Increase icon size */
+  height: 70px;
+  margin-bottom: 15px;
+}
+
+#features .feature-item h3 {
+  font-size: 1.5rem; /* Increase title size */
+  color: var(--highlight-color);
+  margin-bottom: 10px;
+}
+
+#features .feature-item p {
+  font-size: 1.1rem; /* Increase text size */
+  color: #b0bec5;
+}
+
+/* About Us Section */
+/* About Us Section */
+#about-us {
+  background: linear-gradient(135deg, #f0f4f8, #e6eef5);
+  padding: 100px 30px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 100%;
+}
+
+#about-us h2 {
+  color: var(--primary-color);
+  font-size: 2.8rem; /* Slightly larger heading */
+  margin-bottom: 30px;
+  font-weight: 800;
+  text-shadow: 0px 5px 15px rgba(0, 188, 212, 0.4);
+  letter-spacing: 1px;
+}
+
+#about-us p {
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  margin-bottom: 50px;
+  line-height: 1.7;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.9;
+}
+
+/* Mission and Vision */
+.about-details {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.mission, .vision {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+  width: 45%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mission:hover, .vision:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.mission h3, .vision h3 {
+  color: var(--primary-color);
+  font-size: 1.9rem;
+  margin-bottom: 15px;
+  text-shadow: 0px 3px 8px rgba(0, 188, 212, 0.3);
+}
+
+/* Core Values */
+.core-values {
+  margin-bottom: 60px;
+}
+
+.core-values h3 {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  text-shadow: 0px 3px 8px rgba(0, 188, 212, 0.3);
+}
+
+.core-values ul {
+  list-style: none;
+  padding: 0;
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  display: inline-block;
+  text-align: left;
+}
+
+.core-values ul li {
+  margin-bottom: 12px;
+  padding-left: 25px;
+  position: relative;
+}
+
+.core-values ul li:before {
+  content: "✔";
+  color: var(--highlight-color);
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}
+
+.core-values ul li strong {
+  color: var(--highlight-color);
+}
+
+/* Call to Action */
+.cta {
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  margin-top: 40px;
+}
+
+.cta a {
+  color: var(--highlight-color);
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.cta a:hover {
+  color: var(--primary-color);
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}

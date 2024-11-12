@@ -1,0 +1,96 @@
+/* Resetting default margin and padding for all elements */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling the body to center the content and cover the full viewport */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(45deg, #003366, #c0bbbb 50%, transparent 70%), url('backa.jpg');
+    background-size: cover;
+    overflow: hidden; /* Prevents scrolling */
+}
+
+/* Styling the container that holds the form and content */
+.container {
+    max-width: 400px;
+    width: 100%;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Main title styling */
+h1 {
+    margin-bottom: 20px;
+    color: #003366;
+    font-size: 1.8em;
+}
+
+/* Label styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Input field styling */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Submit button styling */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+/* Submit button hover effect */
+button[type="submit"]:hover {
+    background-color: #002b55;
+}
+
+/* Styling for the logo image */
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Link styling for "Back to Login" */
+.back-to-sign-in {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #003366;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* Additional paragraph styling */
+p {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 15px;
+}

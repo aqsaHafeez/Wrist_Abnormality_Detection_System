@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesForgot.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+
+        <h1>Forgot Password</h1>
+        
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="error-message">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/submit-reset-request" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <p>To reset your password, please answer the security questions:</p>
+            <label for="question1">What was your first pet's name?</label>
+            <input type="text" id="question1" name="question1" required>
+
+            <label for="question2">What is the name of your favorite teacher?</label>
+            <input type="text" id="question2" name="question2" required>
+
+            <button type="submit">Submit Reset Request</button>
+        </form>
+        <a href="{{ url_for('login') }}" class="back-to-sign-in">Back to Login</a>
+    </div>
+</body>
+</html>
