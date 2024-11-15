@@ -8,7 +8,7 @@
   --primary-color: #00bcd4; /* Bright teal for accents */
   --secondary-color: #1a1a2e; /* Dark navy for contrast */
   --accent-color: #e0f7fa; /* Light cyan */
-  --highlight-color: #ff4081; /* Pink for attention-grabbing elements */
+  --highlight-color: #07c9ff; /* Pink for attention-grabbing elements */
   --text-color: #ffffff;
 }
 
@@ -52,7 +52,7 @@ html {
 
 #navbar ul li {
   list-style: none;
-  font-size: medium;
+  font-size: small;
 }
 
 #navbar ul li a {
@@ -172,7 +172,7 @@ html {
 
 /* Consistent Button Design */
 .btn {
-  background: linear-gradient(90deg, var(--highlight-color), #ff80ab);
+  background: linear-gradient(90deg, var(--highlight-color), #00FFFF);
   color: var(--text-color);
   font-weight: bold;
   font-size: 1.3rem; /* Larger button text */
@@ -180,13 +180,13 @@ html {
   padding: 18px 36px; /* Larger button padding */
   border: none;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
-  box-shadow: 0px 8px 20px rgba(255, 64, 129, 0.5);
+  /* transition: transform 0.3s, box-shadow 0.3s, background 0.3s; */
+
 }
 
 .btn:hover {
   transform: translateY(-6px);
-  background: linear-gradient(90deg, #ff80ab, var(--highlight-color));
+  background: linear-gradient(90deg, #00FFFF, var(--highlight-color));
   box-shadow: 0px 10px 25px rgba(255, 64, 129, 0.6);
 }
 

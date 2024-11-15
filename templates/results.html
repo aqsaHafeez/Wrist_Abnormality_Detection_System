@@ -8,50 +8,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <section id="home">
     <!-- Navbar Section -->
-    <nav id="navbar">
-        <span id="logo">
-            <img src="static/images/logo.svg" alt="Project Logo" />
-        </span>
-        <ul>
-            <!-- View Image Button -->
-            <li class="item">
-                <a href="{{ url_for('static', filename=image_path) }}" target="_blank">
-                    View Image <i class="fa fa-eye"></i>
-                </a>
-            </li>
-            <!-- Download Image Button -->
-            <li class="item">
-                <a href="{{ url_for('static', filename=image_path) }}" download="diagnosed_image.png">
-                    Download Image <i class="fa fa-download"></i>
-                </a>
-            </li>
-            <!-- Download Report Button -->
-            <li class="item">
-                <a href="{{ url_for('download_report') }}" download="diagnosed_report.pdf">
-                    Download Report <i class="fa fa-file-download"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<nav id="navbar">
+    <span id="logo">
+        <img src="static/images/logo.svg" alt="Project Logo" />
+    </span>
+    
+    <!-- Home Button -->
+    <ul class="item">
+        <li class="item2">
+            <a href="{{ url_for('index') }}">
+                Home <i class="fa fa-home"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
 
     <!-- Header Section -->
     <div class="header">
-        <h1 class="h-primary" style="text-align: center;">
+        <h1 class="h-primary">
             <i class="fas fa-file-medical-alt icon"></i>
             Detection Results & Report
         </h1>
     </div>
 
-    <!-- Report Content -->
-    <div class="text-center">
-        {% if image_path %}
-            <div id="report-section">
-                <!-- Report Section -->
-            </div>
-        {% else %}
-            <p>No diagnosis available. Upload an image to start the diagnosis.</p>
-        {% endif %}
+    <!-- Buttons Section -->
+    <div class="button-container">
+        <ul>
+            <!-- View Image Button -->
+            <li>
+                <a href="{{ url_for('static', filename=image_path) }}" target="_blank">
+                    View Image <i class="fa fa-eye"></i>
+                </a>
+            </li>
+            <!-- Download Image Button -->
+            <li>
+                <a href="{{ url_for('static', filename=image_path) }}" download="diagnosed_image.png">
+                    Download Image <i class="fa fa-download"></i>
+                </a>
+            </li>
+            <!-- Download Report Button -->
+            <li>
+                <a href="{{ url_for('download_report') }}" download="diagnosed_report.pdf">
+                    Download Report <i class="fa fa-file-download"></i>
+                </a>
+            </li>
+        </ul>
     </div>
+</section>
 </body>
 </html>

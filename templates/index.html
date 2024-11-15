@@ -26,6 +26,7 @@
     <li class="item"><a href="#technology-stack">TECH STACK <i class="fa fa-cogs"></i></a></li>
     <li class="item"><a href="#about-us">ABOUT US <i class="fa fa-info-circle"></i></a></li>
     <li class="item"><a href="#contact-us">CONTACT US <i class="fa fa-phone"></i></a></li>
+    <li class="item"><a href="{{ url_for('logout') }}" class="logout-button">LOG OUT <i class="fa fa-sign-out-alt"></i></a></li>
   </ul>
 </nav>
 
@@ -63,13 +64,34 @@
     </div>
 
     <!-- Button Group -->
-    <div class="button-group">
-      <button type="button" onclick="startAnalysis()" class="btn btn-action">Analyze X-ray</button>
-      <a href="{{ url_for('results') }}" class="btn btn-action">Results</a>
-    </div>
+    <!-- Button Group -->
+<div class="button-group">
+  <button type="button" onclick="startAnalysis()" class="btn btn-action">Analyze X-ray</button>
+  <a href="{{ url_for('results') }}" class="btn btn-action" 
+     {% if not session.get('image_generated') %} style="pointer-events: none; opacity: 0.5;" {% endif %}>
+     Results
+  </a>
+</div>
   </form>
 </section>
 
+<!-- Popup Modal for image upload reminder -->
+<div class="modal" tabindex="-1" id="uploadModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Please Upload an Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>You need to upload an X-ray image first before analyzing or viewing results.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -255,54 +277,90 @@
   integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
   <script>
     function startAnalysis() {
-      const form = document.getElementById("uploadForm");
-      const progressBar = document.getElementById("progressBar");
-      const progressText = document.getElementById("progressText");
-      const progressContainer = document.getElementById("progressContainer");
-      const loadingSpinner = document.getElementById("loadingSpinner");
+  const fileInput = document.querySelector('input[name="file"]');
+  const form = document.getElementById("uploadForm");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  const progressContainer = document.getElementById("progressContainer");
+  const loadingSpinner = document.getElementById("loadingSpinner");
   
-      // Show progress container and reset progress bar
-      progressContainer.style.display = "block";
-      progressBar.style.width = "0%";
-      progressText.textContent = "0%";
+  // Check if the file is uploaded
+  if (!fileInput.files.length) {
+    // If no file is selected, show the modal to inform the user
+    const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+    uploadModal.show();
+    return;
+  }
+
+  // Show progress container and reset progress bar
+  progressContainer.style.display = "block";
+  progressBar.style.width = "0%";
+  progressText.textContent = "0%";
   
-      // Create XMLHttpRequest for file upload
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/index", true);
+  // Create XMLHttpRequest for file upload
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/index", true);
   
-      // Display progress bar during file upload
-      xhr.upload.onprogress = function (event) {
-        if (event.lengthComputable) {
-          const percentComplete = Math.round((event.loaded / event.total) * 100);
-          progressBar.style.width = percentComplete + "%";
-          progressText.textContent = percentComplete + "%";
-        }
-      };
-  
-      // After upload completes, hide the progress bar and show loading spinner
-      xhr.onloadstart = function () {
-        xhr.upload.onload = function () {
-          progressContainer.style.display = "none";
-          loadingSpinner.style.display = "block";
-        };
-      };
-  
-      // When the model finishes processing, hide the spinner and redirect to results
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          loadingSpinner.style.display = "none";
-          window.location.href = "/results";
-        } else {
-          alert("Error during analysis. Please try again.");
-          progressContainer.style.display = "none";
-          loadingSpinner.style.display = "none";
-        }
-      };
-  
-      // Send the form data
-      const formData = new FormData(form);
-      xhr.send(formData);
+  // Display progress bar during file upload
+  xhr.upload.onprogress = function (event) {
+    if (event.lengthComputable) {
+      const percentComplete = Math.round((event.loaded / event.total) * 100);
+      progressBar.style.width = percentComplete + "%";
+      progressText.textContent = percentComplete + "%";
     }
+  };
+  
+  // After upload completes, hide the progress bar and show loading spinner
+  xhr.onloadstart = function () {
+    xhr.upload.onload = function () {
+      progressContainer.style.display = "none";
+      loadingSpinner.style.display = "block";
+    };
+  };
+  
+  // When the model finishes processing, hide the spinner and redirect to results
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      loadingSpinner.style.display = "none";
+      window.location.href = "/results";
+    } else {
+      alert("Error during analysis. Please try again.");
+      progressContainer.style.display = "none";
+      loadingSpinner.style.display = "none";
+    }
+  };
+  
+  // Send the form data
+  const formData = new FormData(form);
+  xhr.send(formData);
+}
+// Function to handle the "Results" button click
+function handleResultsClick(event) {
+  const fileInput = document.querySelector('input[name="file"]');
+  const resultPageUrl = event.target.getAttribute('data-target-url'); // Assuming you have a URL stored
+
+  // Check if the file is uploaded
+
+  // Check if the result page exists
+  fetch(resultPageUrl, { method: 'HEAD' }) // Make a HEAD request to check if the page exists
+    .then((response) => {
+      if (!response.ok) {
+        event.preventDefault();
+        const notFoundModal = new bootstrap.Modal(document.getElementById('notFoundModal')); // Modal for non-existent page
+        notFoundModal.show();
+      }
+    })
+    .catch((error) => {
+      console.error('Error checking page existence:', error);
+      event.preventDefault();
+      const notFoundModal = new bootstrap.Modal(document.getElementById('notFoundModal'));
+      notFoundModal.show();
+    });
+}
+
+
+
+
   </script>  
     
 </body>
