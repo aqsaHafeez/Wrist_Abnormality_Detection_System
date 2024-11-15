@@ -15,8 +15,8 @@
         <section id="sign-up">
             <div class="container">
                 <div class="form-container" id="form-container">
-                    <!-- Flash Messages Container -->
-                    <div id="flash-messages"></div>
+                    <!-- Flash Messages Container with Fixed Height -->
+                    <div id="flash-messages" class="flash-container"></div>
                     
                     <!-- Sign Up Form -->
                     <form action="{{ url_for('signup') }}" method="post">

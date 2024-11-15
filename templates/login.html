@@ -5,28 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wrist X-Ray Detection System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesLogin.css') }}">
-
 </head>
 <body>
   <main>
     <section id="title">
-        <div class="container">
-          <div class="title-content">
-            <span class="wrist-square">WRIST</span>
-            <h1 class="title-text">X-Ray Detection System</h1>
-          </div>
+      <div class="container">
+        <div class="title-content">
+          <span class="wrist-square">WRIST</span>
+          <h1 class="title-text">X-Ray Detection System</h1>
         </div>
-      </section>
+      </div>
+    </section>
     <section id="login">
       <div class="container">
         <div class="form-container">
           <div id="sign"><h1 id="head">Login</h1></div>
+
+          <!-- Display error message if it exists -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="error-message">
+                {% for category, message in messages %}
+                  <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
           <form action="/login" method="post">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required placeholder="Enter your name">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required placeholder="Enter Password">
-            <a class="forgot-password"> <a href="{{ url_for('forgot') }}">Forgot Password?</a></a>
+            <a class="forgot-password" href="{{ url_for('forgot') }}">Forgot Password?</a>
             <button type="submit">Login</button>
           </form>
           <p>Don't have an account? <a href="{{ url_for('signup') }}">Signup</a></p>
@@ -34,6 +45,5 @@
       </div>
     </section>
   </main>
-  
 </body>
 </html>

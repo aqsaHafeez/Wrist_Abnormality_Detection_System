@@ -1,9 +1,11 @@
+/* Reset & Global Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body & Background */
 body {
   display: flex;
   justify-content: center;
@@ -15,6 +17,7 @@ body {
   overflow: hidden; /* Prevents scrolling */
 }
 
+/* Page Title */
 #page-title {
   position: absolute;
   top: 20px;
@@ -28,6 +31,7 @@ body {
   font-weight: bold;
 }
 
+/* Container */
 .container {
   display: flex;
   justify-content: center;
@@ -37,12 +41,13 @@ body {
   max-width: 400px;
 }
 
+/* Form Container */
 .form-container {
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 1500px;
 }
 
 .form-container h1 {
@@ -89,36 +94,20 @@ body {
   background-color: #002b55;
 }
 
-#flash-messages .flash-message {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-
-.flash-message.success {
-  background-color: #e0f7e9;
-  color: #2e7d32;
-}
-
-.flash-message.error {
-  background-color: #fdecea;
-  color: #c62828;
-}
-
+/* Flash Messages */
 #flash-messages {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   position: relative;
   z-index: 10; /* Ensures it appears above other elements */
 }
 
 #flash-messages .flash-message {
-  padding: 15px;
+  margin-bottom: 10px;
+  padding: 5px;
   border-radius: 8px;
-  font-size: 1em;
+  font-size: 0.8em;
   text-align: center;
   font-weight: 500;
-  margin-bottom: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -156,4 +145,3 @@ body {
     transform: translateY(-10px);
   }
 }
-
