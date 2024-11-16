@@ -11,9 +11,15 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
 from flask_sqlalchemy import SQLAlchemy
+from langchain_core.messages import HumanMessage
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+GOOGLE_API_KEY = "AIzaSyAWZQ_VSR4xiOGLQMulMnSlAvLrCv5eTrs"
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=GOOGLE_API_KEY)
+
 # Flask-Mail configuration
 # Flask-Mail configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -81,7 +87,7 @@ def init_db():
 # Directory paths for YOLOv9 detect script and processed images
 YOLO_DETECT_SCRIPT = os.path.join('models', 'yolov9', 'detect.py')
 YOLO_WEIGHTS = os.path.join('models', 'yolov9', 'best.pt')
-DETECTED_IMAGE_PATH = os.path.join('static', 'diagnosed_image', 'latest_detection.jpg')
+DETECTED_IMAGE_PATH = os.path.join('static', 'diagnosed_image', 'latest_detection.jpg').replace("\\", "/")
 UPLOAD_IMAGE_PATH = os.path.join('static', 'uploaded_image.jpg')
 
 @app.route('/')
@@ -275,7 +281,8 @@ def index():
     # Clear session flag on refresh (GET request)
     if request.method == 'GET' and not session.get('image_generated', False):
         session.pop('image_generated', None)
-    
+        session.pop('generated_report', None)  # Clear report data on refresh
+
     if request.method == 'POST':
         if 'file' not in request.files:
             flash("No file part", "error")
@@ -287,7 +294,7 @@ def index():
             return redirect(url_for('index'))
 
         if file:
-            # Save the uploaded file and perform analysis
+            # Save the uploaded file and perform YOLO analysis
             file.save(UPLOAD_IMAGE_PATH)
             subprocess.run([
                 sys.executable, YOLO_DETECT_SCRIPT,
@@ -306,10 +313,45 @@ def index():
                     os.remove(DETECTED_IMAGE_PATH)
                 os.rename(latest_file, DETECTED_IMAGE_PATH)
 
+            # Generate report using Gemini LLM
+            message = HumanMessage(
+                content=[
+                    {
+                        "type": "text",
+                        "text": (
+                            "I am providing a YOLO-evaluated image that contains detected class labels. "
+                            "Your task is to generate descriptions for each detected class based on the predefined mappings below.\n\n"
+                            "Detected Class Mappings:\n"
+                            "Bone anomaly: Bone anomaly detected, indicating potential structural irregularity.\n"
+                            "Bone lesion: Bone lesion detected; further evaluation may be needed to assess severity.\n"
+                            "Foreign body: Foreign body detected near bone structure, possibly requiring removal.\n"
+                            "Fracture: Bone fracture identified; urgent medical attention is advised.\n"
+                            "Metal: Metal implant detected, likely a post-surgical addition.\n"
+                            "Periosteal reaction: Periosteal reaction noted, often a sign of bone healing or infection.\n"
+                            "Pronator sign: Pronator sign visible, indicating possible skeletal irregularities.\n"
+                            "Soft tissue abnormality: Soft tissue swelling observed, possibly due to inflammation.\n"
+                            "No abnormalities: No abnormalities detected; this appears to be a normal X-ray."
+                        ),
+                    },
+                    {"type": "image_url", "image_url": f"http://127.0.0.1:5000/{DETECTED_IMAGE_PATH}"}
+                ]
+            )
+            try:
+                response = llm.invoke([message])
+                if response and hasattr(response, 'content'):
+                    session['generated_report'] = response.content
+                    print("Gemini Response:", response.content)  # Debugging
+                else:
+                    session['generated_report'] = "No valid response received from Gemini."
+                    print("Gemini Response is empty or invalid.")
+            except Exception as e:
+                flash(f"Error generating report: {e}", "error")
+                session['generated_report'] = f"Error: {e}"
+
             # Mark session as analysis completed
             session['image_generated'] = True
-            flash('Diagnosis completed!', "success")
-            return redirect(url_for('results'))
+            flash('Diagnosis and report generation completed!', "success")
+            return redirect(url_for('results'))  # Redirect to the results page
 
     return render_template('index.html')
 
@@ -401,14 +443,16 @@ def view_feedback():
 def results():
     # Check if the analysis is completed
     if not session.get('image_generated', False):
-        flash("Please upload an image and complete the analysis first.", "error")
+        flash("No analysis found. Please upload an image first.", "error")
         return redirect(url_for('index'))
 
-    # Check if the diagnosis image exists
-    image_exists = os.path.exists(DETECTED_IMAGE_PATH) and session.get('image_generated', False)
+    # Retrieve the YOLO-detected image and generated report
+    image_path = 'diagnosed_image/latest_detection.jpg' if session.get('image_generated', False) else None
+    report_content = session.get('generated_report', "Report content not available.")
 
-    # Pass only the relative path for the template
-    return render_template('results.html', image_path='diagnosed_image/latest_detection.jpg' if image_exists else None)
+    # Render the results page
+    return render_template('results.html', image_path=image_path, report=report_content)
+
 
 
 

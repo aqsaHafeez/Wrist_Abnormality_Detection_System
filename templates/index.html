@@ -21,9 +21,9 @@
   <ul>
     <li class="item"><a href="#home">HOME <i class="fa fa-home"></i></a></li>
     <li class="item"><a href="#upload">UPLOAD X-RAY <i class="fa fa-upload"></i></a></li>
-    <li class="item"><a href="#team">TEAM <i class="fa fa-users"></i></a></li>
     <li class="item"><a href="#features">FEATURES <i class="fa fa-bolt"></i></a></li>
     <li class="item"><a href="#technology-stack">TECH STACK <i class="fa fa-cogs"></i></a></li>
+    <li class="item"><a href="#team">TEAM <i class="fa fa-users"></i></a></li>
     <li class="item"><a href="#about-us">ABOUT US <i class="fa fa-info-circle"></i></a></li>
     <li class="item"><a href="#contact-us">CONTACT US <i class="fa fa-phone"></i></a></li>
     <li class="item"><a href="{{ url_for('logout') }}" class="logout-button">LOG OUT <i class="fa fa-sign-out-alt"></i></a></li>
@@ -37,43 +37,64 @@
 </section>
 
 
-<!-- Upload X-ray Section -->
-<!-- <section id="upload" class="container">
-  <h1 class="h-primary center">Upload Your Wrist X-ray</h1>
-  <p>Please upload a wrist X-ray in .png format for fracture detection.</p>
-  <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" accept="image/png" name="xray_image" required class="form-control-file mb-3">
-    <button type="submit" class="btn btn-primary">Analyze X-ray</button>
-  </form>
-</section> -->
 <section id="upload" class="container">
   <h1 class="h-primary center">Upload Your Wrist X-ray</h1>
   <form action="/index" method="post" enctype="multipart/form-data" id="uploadForm">
-    <input type="file" accept="image/png" name="file" required class="form-control-file mb-3">
+    <div class="form-row">
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      </div>
 
-    <!-- Progress bar for upload -->
-    <div id="progressContainer" style="display: none;">
-      <div id="progressBar"></div>
-      <div id="progressText">0%</div>
+      <!-- Age -->
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" placeholder="Enter your age" required min="1">
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+          <option value="">Select your gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
     </div>
 
-    <!-- Loading spinner for processing -->
-    <div id="loadingSpinner" style="display: none;">
-      <h2>Processing...</h2>
-      <div class="spinner"></div>
+    <!-- Radio Buttons for Wrist Side -->
+    <div class="form-row">
+      <div class="radio-group">
+        <label>
+          <input type="radio" id="leftWrist" name="wrist" value="left" required> Left Wrist
+        </label>
+        <label>
+          <input type="radio" id="rightWrist" name="wrist" value="right"> Right Wrist
+        </label>
+      </div>
     </div>
 
-    <!-- Button Group -->
-    <!-- Button Group -->
-<div class="button-group">
-  <button type="button" onclick="startAnalysis()" class="btn btn-action">Analyze X-ray</button>
-  <a href="{{ url_for('results') }}" class="btn btn-action" 
-     {% if not session.get('image_generated') %} style="pointer-events: none; opacity: 0.5;" {% endif %}>
-     Results
-  </a>
-</div>
+    <!-- File Upload -->
+    <div class="form-group">
+      <label for="file">Upload X-ray Image:</label>
+      <input type="file" id="file" accept="image/png" name="file" required class="form-control-file">
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <button type="submit" class="btn btn-action">Analyze X-ray</button>
+      <a href="{{ url_for('results') }}" class="btn btn-action" 
+         {% if not session.get('image_generated') %} style="pointer-events: none; opacity: 0.5;" {% endif %}>
+         Results
+      </a>
+    </div>
   </form>
 </section>
+
+
 
 <!-- Popup Modal for image upload reminder -->
 <div class="modal" tabindex="-1" id="uploadModal">
@@ -93,50 +114,6 @@
   </div>
 </div>
 
-
-
-<!-- Report Section -->
-<!-- <section id="report" class="container">
-  <h1 class="h-primary center">Detection Results & Report</h1>
-  <div class="text-center">
-    <h3>Detection Output</h3>
-    <img src="static/images/detection_output.png" alt="Detection Result" id="detection-result" style="display: none;" />
-  </div>
-  <div class="mt-4">
-    <h3>Generated Report</h3>
-    <p id="report-content">
-      LLM Generated Report Goes Here -->
-    <!-- </p>
-  </div>
-</section> -->
-<!-- Report Section -->
-
-<section id="team" class="container">
-  <h1 class="h-primary center">Meet the Team</h1>
-  <div class="row text-center mt-4">
-    <div class="col-md-4">
-      <div class="team-member">
-        <img src="static/images/jazib.jpg" alt="Jazib Sarwar" class="team-photo">
-        <h3>Jazib Sarwar</h3>
-        <p>Backend and Deep Learning Engineer</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="team-member">
-        <img src="static/images/aqsa.jpg" alt="Aqsa Hafeez" class="team-photo">
-        <h3>Aqsa Hafeez</h3>
-        <p>Full Stack Developer and Gen AI </p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="team-member">
-        <img src="static/images/islam.jpg" alt="Islam Nabi" class="team-photo">
-        <h3>Islam Nabi</h3>
-        <p>Machine Learning Engineer and Backend Developer </p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Features Section -->
 <section id="features" class="container">
@@ -204,6 +181,34 @@
       <h3>LLM</h3>
     </div>
     <!-- Add more tech items as needed -->
+  </div>
+</section>
+
+   <!-- Team -->
+<section id="team" class="container">
+  <h1 class="h-primary center">Meet the Team</h1>
+  <div class="row text-center mt-4">
+    <div class="col-md-4">
+      <div class="team-member">
+        <img src="static/images/jazib.jpg" alt="Jazib Sarwar" class="team-photo">
+        <h3>Jazib Sarwar</h3>
+        <p>Backend and Deep Learning Engineer</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="team-member">
+        <img src="static/images/aqsa.jpg" alt="Aqsa Hafeez" class="team-photo">
+        <h3>Aqsa Hafeez</h3>
+        <p>Full Stack Developer and Gen AI </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="team-member">
+        <img src="static/images/islam.jpg" alt="Islam Nabi" class="team-photo">
+        <h3>Islam Nabi</h3>
+        <p>Machine Learning Engineer and Backend Developer </p>
+      </div>
+    </div>
   </div>
 </section>
 

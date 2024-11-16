@@ -127,6 +127,53 @@
   border-radius: 15px; /* Less round on hover */
 }
 
+/* Generated Report Section */
+/* General Styling for Report Section */
+#report {
+  margin: 40px auto 20px;
+  padding: 20px 30px;
+  max-width: 900px; /* Restrict width for better readability */
+  background-color: rgba(255, 255, 255, 0.9); /* Light translucent background */
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  text-align: left;
+}
+
+#report h2 {
+  font-size: 2rem;
+  color: var(--highlight-color);
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Slight shadow for emphasis */
+}
+
+#report p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+  margin: 10px 0;
+}
+
+#report p strong {
+  color: var(--highlight-color); /* Highlighted text */
+}
+
+#report a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+#report a:hover {
+  color: var(--highlight-color);
+}
+
+/* Adjustments for Button Container (to position below report section) */
+.button-container {
+  margin-top: 30px; /* Add spacing below report section */
+}
+
 
 
 /* Responsive Design */

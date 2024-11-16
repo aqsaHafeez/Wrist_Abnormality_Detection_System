@@ -132,66 +132,107 @@ html {
 /* Upload Section */
 #upload {
   background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  padding: 80px 20px;
+  padding: 30px;
   text-align: center;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
-  border-radius: 0px; /* More rounded corners for a card-like look */
-  transition: box-shadow 0.3s ease-in-out; /* Smooth transition */
-  max-width: 100%;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 #upload:hover {
-  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2); /* Elevation on hover */
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 #upload h1 {
   color: var(--primary-color);
-  margin-bottom: 30px;
-  font-size: 3rem; /* Slightly larger heading */
-  font-weight: 800;
-  text-shadow: 0px 6px 12px rgba(0, 188, 212, 0.4);
+  margin-bottom: 15px;
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 0px 3px 6px rgba(0, 188, 212, 0.3);
 }
 
-#upload .form-control-file {
-  width: 60%;
-  margin: 50px auto;
-  margin-right: 20px;
-  padding: 15px;
+/* Form Layout */
+#upload .form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px; /* Further reduced gap */
+  margin-bottom: 12px; /* Smaller bottom margin for compact layout */
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+#upload .form-group {
+  flex: 1;
+  min-width: 180px;
+  max-width: 250px; /* Adjusted max-width for better alignment */
+  text-align: left;
+}
+
+#upload .form-group label {
+  display: block;
+  font-size: 0.9rem; /* Slightly smaller font for labels */
+  font-weight: bold;
+  margin-bottom: 3px; /* Reduced margin for compact spacing */
+  color: var(--primary-color);
+}
+
+#upload .form-group input,
+#upload .form-group select {
+  width: 100%;
+  padding: 6px 8px; /* Reduced padding for compact inputs */
+  font-size: 0.9rem; /* Slightly smaller font size */
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
+  border-radius: 6px; /* Slightly smaller corners */
   transition: border-color 0.3s, box-shadow 0.3s;
-  box-shadow: 0px 5px 12px rgba(0, 188, 212, 0.2);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#upload .form-group input:hover,
+#upload .form-group input:focus,
+#upload .form-group select:hover,
+#upload .form-group select:focus {
+  border-color: var(--highlight-color);
+  box-shadow: 0px 4px 8px rgba(0, 188, 212, 0.3);
+  outline: none;
+}
+
+/* Radio Button Group */
+#upload .radio-group {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced gap for tighter alignment */
+  margin-top: 5px; /* Reduced spacing for better compactness */
+}
+
+#upload .radio-group input[type="radio"] {
+  margin-right: 4px;
+}
+
+#upload .radio-group label {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* File Upload Styling */
+#upload .form-control-file {
+  width: 100%;
+  padding: 6px 8px; /* Reduced padding for compact styling */
+  font-size: 0.9rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  margin-top: 8px; /* Reduced spacing for better compactness */
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 #upload .form-control-file:hover,
 #upload .form-control-file:focus {
   border-color: var(--highlight-color);
-  box-shadow: 0px 8px 18px rgba(0, 188, 212, 0.4);
+  box-shadow: 0px 4px 8px rgba(0, 188, 212, 0.3);
   outline: none;
-}
-
-/* Consistent Button Design */
-.btn {
-  background: linear-gradient(90deg, var(--highlight-color), #00FFFF);
-  color: var(--text-color);
-  font-weight: bold;
-  font-size: 1.3rem; /* Larger button text */
-  border-radius: 8px; /* Reduced border-radius for rectangular shape */
-  padding: 18px 36px; /* Larger button padding */
-  border: none;
-  cursor: pointer;
-  /* transition: transform 0.3s, box-shadow 0.3s, background 0.3s; */
-
-}
-
-.btn:hover {
-  transform: translateY(-6px);
-  background: linear-gradient(90deg, #00FFFF, var(--highlight-color));
-  box-shadow: 0px 10px 25px rgba(255, 64, 129, 0.6);
-}
-
-.btn:active {
-  transform: scale(0.96); /* Adds a more pronounced "press" effect */
 }
 
 #upload .form-control-file::file-selector-button {
@@ -202,6 +243,58 @@ html {
   cursor: pointer;
 }
 
+/* Button Group Styling */
+#upload .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /* Reduced gap between buttons */
+  margin-top: 15px; /* Slightly reduced margin for tighter alignment */
+}
+
+.btn {
+  background: linear-gradient(90deg, var(--highlight-color), #00FFFF);
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 0.9rem; /* Slightly smaller font for buttons */
+  border-radius: 6px;
+  padding: 8px 16px; /* Adjusted padding for compact buttons */
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(90deg, #00FFFF, var(--highlight-color));
+  box-shadow: 0px 6px 16px rgba(255, 64, 129, 0.4);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #upload {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  #upload .form-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px; /* Adjusted for vertical layout on smaller screens */
+  }
+
+  #upload .form-group {
+    width: 100%;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+}
 
 
 /* Report Section */
