@@ -6,13 +6,16 @@ import subprocess
 import sys
 import glob
 import logging
-from flask import Flask, send_file
+from flask import Flask, send_file, session
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
 from flask_sqlalchemy import SQLAlchemy
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+import textwrap
+from flask import send_file, session
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -226,11 +229,11 @@ def reset_password(username):
     return render_template('resetPassword.html', username=username)
 
 
-
-
 @app.route('/forgot')
 def forgot():
     return render_template('forgot.html')
+
+    
 
 @app.route('/submit-reset-request', methods=['POST'])
 def submit_reset_request():
@@ -245,11 +248,6 @@ def submit_reset_request():
     else:
         flash("Incorrect answers to the security questions. Please try again.", 'error')
         return redirect(url_for('forgot'))
-
-
-    @app.route('/reset-password')
-    def reset_password():
-        return render_template('resetPassword.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -284,6 +282,19 @@ def index():
         session.pop('generated_report', None)  # Clear report data on refresh
 
     if request.method == 'POST':
+        # Capture form data
+        session['patient_name'] = request.form.get('name', 'Unknown')
+        session['patient_age'] = request.form.get('age', 'Unknown')
+        session['patient_gender'] = request.form.get('gender', 'Unknown')
+        session['wrist_side'] = request.form.get('wrist', 'Unknown')
+
+        # Debugging: Print the form data
+        print("Form Data Captured:")
+        print(f"Name: {session['patient_name']}")
+        print(f"Age: {session['patient_age']}")
+        print(f"Gender: {session['patient_gender']}")
+        print(f"Wrist Side: {session['wrist_side']}")
+
         if 'file' not in request.files:
             flash("No file part", "error")
             return redirect(url_for('index'))
@@ -320,7 +331,7 @@ def index():
                         "type": "text",
                         "text": (
                             "I am providing a YOLO-evaluated image that contains detected class labels. "
-                            "Your task is to generate descriptions for each detected class based on the predefined mappings below.\n\n"
+                            "Your task is to generate descriptions for each detected class based on the predefined mappings below.if you find two same types of fracture labels then tell that there are two but ont repeat the advice. \n\n"
                             "Detected Class Mappings:\n"
                             "Bone anomaly: Bone anomaly detected, indicating potential structural irregularity.\n"
                             "Bone lesion: Bone lesion detected; further evaluation may be needed to assess severity.\n"
@@ -356,6 +367,7 @@ def index():
     return render_template('index.html')
 
 
+
 @app.route('/logout')
 def logout():
     # Clear the session to log the user out
@@ -370,74 +382,122 @@ def logout():
 
 
 # root for downloading report in pdf format 
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.pdfgen import canvas
+from datetime import datetime
+import textwrap
+
 @app.route('/download-report')
 def download_report():
     # Define the path for the report PDF
-    report_path = "static/diagnosed_image/dummy_report.pdf"
+    report_path = "static/diagnosed_image/detailed_report.pdf"
     
-    # Generate the report if it doesn’t exist
-    if not os.path.exists(report_path):
-        generate_pdf_report(report_path)
+    # Retrieve form data and Gemini response from the session
+    patient_name = session.get('patient_name', 'Unknown')
+    patient_age = session.get('patient_age', 'Unknown')
+    patient_gender = session.get('patient_gender', 'Unknown')
+    wrist_side = session.get('wrist_side', 'Unknown')
+    gemini_response = session.get('generated_report', 'No diagnosis report available.')
+
+    # Debugging: Log data retrieved from session
+    print(f"Generating report with the following data:\n"
+          f"Name: {patient_name}, Age: {patient_age}, Gender: {patient_gender}, "
+          f"Wrist: {wrist_side}, Diagnosis: {gemini_response}")
+    
+    # Generate the detailed PDF report
+    generate_pdf_report(
+        path=report_path,
+        name=patient_name,
+        age=patient_age,
+        gender=patient_gender,
+        wrist=wrist_side,
+        diagnosis_summary=gemini_response
+    )
     
     # Serve the PDF file for download
-    return send_file(report_path, as_attachment=True, download_name="diagnosed_report.pdf")
+    return send_file(report_path, as_attachment=True, download_name="detailed_report.pdf")
 
-def generate_pdf_report(path):
-    """Function to generate a dummy PDF report."""
+
+def generate_pdf_report(path, name, age, gender, wrist, diagnosis_summary):
+    """Function to generate a detailed PDF report."""
     c = canvas.Canvas(path, pagesize=letter)
     width, height = letter
+
+    # Define colors
+    header_color = colors.HexColor("#3498db")  # Soft Blue for header
+    section_bg_color = colors.HexColor("#ecf0f1")  # Light grey background for sections
+    text_color = colors.black  # Default text color
+    border_color = colors.HexColor("#2980b9")  # Blue border color
+    title_color = colors.HexColor("#2c3e50")  # Dark color for titles
+
+    # Add system name at the top-left of the document
+    c.setFont("Helvetica-Bold", 16)
+    c.setFillColor(header_color)
+    c.drawString(20, height - 30, "Wrist Abnormality Detection System")
+
+    # Add current date and time at the top-right of the document
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    c.setFillColor(text_color)
+    c.drawRightString(width - 20, height - 30, current_time)
+
+    # Add space at the top (2 lines of space)
+    vertical_offset = 150
+
+    # Add report header with a border
+    c.setFont("Helvetica-Bold", 20)
+    c.setFillColor(header_color)
+    c.drawString(100, height - 50, "X-ray Analysis Report")
     
-    # Add some text to the PDF for the dummy report
-    c.drawString(100, height - 100, "Detection Report")
-    c.drawString(100, height - 150, "Patient Name: John Doe")
-    c.drawString(100, height - 200, "Date of Diagnosis: 2023-10-25")
-    c.drawString(100, height - 250, "Diagnosis Summary:")
-    c.drawString(120, height - 300, "A fracture has been detected in the wrist region.")
-    c.drawString(120, height - 350, "The detected fracture is located on the distal radius.")
-    c.drawString(120, height - 400, "Recommendation: Consult with an orthopedic specialist.")
+    # Add a thin line below the title
+    c.setFillColor(border_color)
+    c.line(100, height - 55, width - 100, height - 55)
+
+    # Adjust spacing for patient details (top-to-bottom order)
+    details_start_y = height - 100  # Starting Y-coordinate for the patient details section
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(title_color)
+
+    # Add Patient details one by one from top to bottom
+    c.drawString(110, details_start_y, f"Patient Name: {name}")
+    c.drawString(110, details_start_y - 20, f"Age: {age}")
+    c.drawString(110, details_start_y - 40, f"Gender: {gender}")
+    c.drawString(110, details_start_y - 60, f"Wrist Side Analyzed: {wrist}")
+
+    # Draw a separator line after the patient details
+    c.setFillColor(border_color)
+    c.line(100, details_start_y - 80, width - 100, details_start_y - 80)
+
+
+    # Add diagnosis summary header
+    c.setFont("Helvetica-Bold", 14)
+    c.setFillColor(title_color)
+    c.drawString(100, details_start_y - 100, "Diagnosis Summary:")
+
+    # Add diagnosis summary text with wrapping and padding
+    text = c.beginText(100, details_start_y - 120)
+    text.setFont("Helvetica", 12)
+    text.setLeading(14)  # Line spacing for better readability
+    text.setFillColor(text_color)
+
+    # Wrap the text to fit within the page width (400px)
+    diagnosis_summary = diagnosis_summary or "No diagnosis summary provided."
+    wrapped_lines = textwrap.wrap(diagnosis_summary, width=80)  # Adjust width as needed
+    for line in wrapped_lines:
+        text.textLine(line)
+
+    c.drawText(text)
+
+    # Add a footer with page number
+    c.setFont("Helvetica-Oblique", 10)
+    c.setFillColor(text_color)
+    c.drawRightString(width - 20, 20, f"Page 1")
 
     # Save the PDF
     c.save()
 
-    #handeling contact us section 
 
-# creating feedback Table in database
-@app.route('/create_feedback_table')
-def create_feedback_table():
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-
-    # SQL command to create the 'feedback' table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS feedback (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            message TEXT NOT NULL,
-            submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    ''')
-
-    conn.commit()
-    conn.close()
-    return "Feedback table created successfully."
-
-@app.route('/view_feedback')
-def view_feedback():
-    secret_key = request.args.get('key')
-    
-    # Check for a simple secret key (you can replace this with a more secure approach)
-    if secret_key != 'admin321':
-        return "Unauthorized access", 403
-
-    # Query to fetch all feedback
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, email, message FROM feedback")
-    feedback_list = cursor.fetchall()
-    conn.close()
-
-    return render_template('view_feedback.html', feedback=feedback_list)
 
 @app.route('/results')
 def results():
@@ -452,8 +512,6 @@ def results():
 
     # Render the results page
     return render_template('results.html', image_path=image_path, report=report_content)
-
-
 
 
 

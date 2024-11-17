@@ -67,3 +67,4 @@ document.querySelectorAll('#navbar ul li a').forEach(link => {
   setInterval(updateClock, 1000); // Update every second
   updateClock(); // Initial call to set the clock immediately
 
+    

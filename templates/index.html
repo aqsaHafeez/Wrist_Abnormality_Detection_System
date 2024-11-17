@@ -92,6 +92,41 @@
       </a>
     </div>
   </form>
+
+  <!-- Loader -->
+<div id="loader" class="hidden">
+  <p id="loader-message">Analyzing the X-Ray...</p> <!-- Message Above Spinner -->
+  <div class="spinner"></div> <!-- Spinner Below the Message -->
+</div>
+
+  <script>
+    // Wait for the DOM to load
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ensure the loader is hidden by default
+      document.getElementById('loader').classList.add('hidden');
+
+      // Show loader only when form is submitted and validation passes
+      document.getElementById('uploadForm').addEventListener('submit', function (e) {
+        // Get all form fields
+        const name = document.getElementById('name').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const gender = document.getElementById('gender').value;
+        const wrist = document.querySelector('input[name="wrist"]:checked');
+        const file = document.getElementById('file').files[0];
+
+        // Validate if all fields are filled
+        if (!name || !age || !gender || !wrist || !file) {
+          e.preventDefault(); // Stop form submission
+          alert('Please fill in all required fields and upload an X-ray image.');
+          return;
+        }
+
+        // Show loader only if validation passes
+        document.getElementById('loader').classList.remove('hidden');
+      });
+    });
+  </script>
+
 </section>
 
 
@@ -363,10 +398,7 @@ function handleResultsClick(event) {
     });
 }
 
-
-
-
-  </script>  
+</script>  
     
 </body>
 </html>
